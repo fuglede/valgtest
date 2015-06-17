@@ -3,11 +3,10 @@
 <head>
   <title>Test dig selv - hvem er du mest enig med? - Folketingsvalg 2015</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="jquery.mobile.custom.theme.min.css" />
-  <link rel="stylesheet" href="jquery.mobile.custom.structure.min.css" />
+  <link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
 
-  <script src="jquery-1.11.1.min.js"></script>
-  <script src="jquery.mobile-1.4.5.min.js"></script>
+  <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+  <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
 
 <style>
 .slideContainer { border:0px solid black;float:left;padding-right:20px;margin-top:10px; }
@@ -19,10 +18,10 @@ body { font-family:Arial;margin:0px;padding:0px;background-color:#fff; }
 
 .qbox { border:0px solid red;margin:0px;padding:0px;float:left; }
 
-.markL { float:left;text-align:left;padding:0px;margin;0px;font-size:10px;margin-left:60px; }
-.markC { float:center;text-align:center;padding:0px;margin;0px;font-size:10px; }
+.markL { float:left;text-align:left;padding:0px;margin:0px;font-size:10px;margin-left:60px; }
+.markC { float:center;text-align:center;padding:0px;margin:0px;font-size:10px; }
 .markR {
-  float:right;text-align:right;padding:0px;margin;0px;font-size:10px;margin-right:20px; }
+  float:right;text-align:right;padding:0px;margin:0px;font-size:10px;margin-right:20px; }
 h1 { font-size:22px; }
 h2 { font-size:18px;font-weight:normal; }
 #content { position:absolute;z-index:1; }
@@ -156,7 +155,7 @@ function resize() { //make responsive
     });
 }
 
-function rate() {
+function rate(n) {
   $("#result").show();
   $("#content").hide();
 
@@ -171,13 +170,13 @@ function rate() {
     {
       for (var p =0; p < pinfo.length; p++)
       {
-        rating[p] += -Math.abs( qweights[q][p] * 50 - qval );
-        pct[p] += Math.abs( qweights[q][p] * 50 - qval );
+        pct[p] += Math.pow(Math.abs( qweights[q][p] * 50 - qval ),n);
+        rating[p] += -pct[p];
       }
     }
   }
 
-  //skaler resultater 0-1
+  //skaler resultater 0-1 // <- søjlediagrammer skal altså starte i 0
   var maxRating = -999999;
   var minRating = 9999999;
   var res = Array();
@@ -203,16 +202,16 @@ function rate() {
   var ratingSkaleret = Array();
   for (var p =0; p < pinfo.length; p++)
   {
-     ratingSkaleret[p] = (rating[p] - minRating) / (maxRating - minRating);
+     ratingSkaleret[p] = 100-Math.round(Math.pow(pct[p],1/n)/17 * 100)/100; //(rating[p] - minRating)/ (maxRating - minRating);
   }
 
   //sæt søjlehøjde
   var maxH = $("#p0 .bg").height()-50; //max højde af søjler
   for (var p =0; p < pinfo.length; p++)
   {
-    $("#p"+p+" .reverseChart").height(maxH - ratingSkaleret[p] * maxH);
-    $("#p"+p).prop("title",100-Math.round(pct[p]/17 * 100)/100 + " % enig"); //beregn en form for enighedsgrad
-    $("#p"+p+" .pcttal").html("<nobr>" + Math.round(100 - pct[p]/17) + " %</nobr>"); //beregn en form for enighedsgrad
+    $("#p"+p+" .reverseChart").height(maxH - ratingSkaleret[p]/100 * maxH);
+    $("#p"+p).prop("title",100-Math.round(Math.pow(pct[p],1/n)/17 * 100)/100 + " % enig"); //beregn en form for enighedsgrad
+    $("#p"+p+" .pcttal").html("<nobr>" + Math.round(100 - Math.pow(pct[p],1/n)/17) + " %</nobr>"); //beregn en form for enighedsgrad
 
   }
 
@@ -228,10 +227,12 @@ function rate() {
       else
         resout += " og " +res[i];
   }
-  else
-   resout = "Du er mest enig med "+res[0];
+  else {
+    resout = "Du er mest enig med "+res[0];
+  }
+
   $("#res").html(resout);
-  parent.totop(); //hop op
+  window.parent.postMessage('valg', 'http://www.information.dk');
 }
 
 
@@ -513,7 +514,8 @@ For at modgå den tiltagende brug af engelsk på danske universiteter skal det fre
   </div>
 
   <center>
-    <input type=button onclick="rate()" value="Test dine holdninger" data-role="none">
+    <input type=button onclick="rate(1);" value="Test dine holdninger" data-role="none">
+    <input type=button onclick="rate(2);" value="Test dine holdninger i L²" data-role="none">
   </center>
 
     <div style="clear:both;height:25px;">&nbsp;</div>
@@ -598,14 +600,16 @@ For at modgå den tiltagende brug af engelsk på danske universiteter skal det fre
     </div>
 
     <div style="clear:both;margin:5px;">&nbsp;</div>
-    <input type=button onclick='$("#result").hide();$("#content").show();' value="Prøv igen" data-role="none">
+    <input type=button onclick='$("#result").hide();$("#content").show();' value="Ændr svar" data-role="none">
+    <input type=button onclick='rate(1);' value="Prøv med L¹" data-role="none">
+    <input type=button onclick='rate(2);' value="Prøv med L²" data-role="none">
 
 
     <div style="clear:both;margin-top:30px;font-size:11px;text-align:left;">
 <div style="float:left;width:30px;">
       <a href="http://dk.okfn.org" target="_top"><img src="http://www.opennordics.org/wp-content/uploads/2015/02/Open-Knowledge-Denmark-Logo-300x300.jpeg" style="float:left;width:30px;margin-right:10px;border:0px;"></a>
     </div>
-      Testen er udviklet af <a href="http://dk.okfn.org/">Open Knowledge Danmark</a>. Koden er frigivet som open source og kan findes på <a href="https://github.com/ok-dk">Github</a>. Dine valg registreres ikke og bliver dermed heller ikke anvendt andre sammenhænge.
+      Testen er udviklet af <a href="http://dk.okfn.org/">Open Knowledge Danmark</a>. Koden er frigivet som open source og kan findes på <a href="https://github.com/ok-dk">Github</a>. Dine valg registreres ikke og bliver dermed heller ikke anvendt andre sammenhænge. 
 Søjlerne er skaleret med henblik på at vise forskellene mellem graden af enighed og er ikke indekseret til at starte i nul.
 To søjler med samme procenttal kan have forskellig højde pga afrunding.
     </div>
@@ -615,3 +619,4 @@ To søjler med samme procenttal kan have forskellig højde pga afrunding.
 
 </body>
 </html>
+
