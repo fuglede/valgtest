@@ -3,6 +3,7 @@
 <head>
   <title>Test dig selv - hvem er du mest enig med? - Folketingsvalg 2015</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8">
   <link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
 
   <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
@@ -59,7 +60,7 @@ h2 { font-size:18px;font-weight:normal; }
 
 <script>
 var pinfo = Array (
-  Array("Ø","Enhedslisten","6.gif"),
+  Array("Ã˜","Enhedslisten","6.gif"),
 Array("F","SF","3.gif"),
 Array("A","Socialdemokraterne","1.gif"),
                     Array("B","De Radikale","4.gif"),
@@ -71,7 +72,7 @@ Array("A","Socialdemokraterne","1.gif"),
                    );
 
 var qweights = Array (
-                       //  Ø  F  A  B  C  V  I  O
+                       //  Ã˜  F  A  B  C  V  I  O
                     Array( 1, 1, 1, 1,-1,-1,-1,-1),   //q1
   //1 S+RV+SF+EL
                     Array( 1, 1, 1, 1, 1,-1,-1,-1),   //q2
@@ -109,7 +110,7 @@ var qweights = Array (
                     Array(-1,-1,-1, 1, 1, 1, 1, 1)   //q18
 );
 
-  var qs = qweights.length; //10 spørgsmål
+  var qs = qweights.length; //10 spÃ¸rgsmÃ¥l
 
 function resize() { //make responsive
   var height = $(window).height()-50;
@@ -179,7 +180,7 @@ function rate(n) {
     pct[p] = Math.pow(pct[p]/17,1/n);
     rating[p] = -pct[p];
   }
-  //skaler resultater 0-1 // <- søjlediagrammer skal altså starte i 0
+  //skaler resultater 0-1 // <- sÃ¸jlediagrammer skal altsÃ¥ starte i 0
   var maxRating = -999999;
   var minRating = 9999999;
   var res = Array();
@@ -202,16 +203,24 @@ function rate(n) {
       minRating = rating[p];
   }
 
+  //var ratingSkaleret = Array();
+  //for (var p =0; p < pinfo.length; p++)
+  //{
+  //   ratingSkaleret[p] = 100-Math.round(pct[p]/17 * 100)/100; //(rating[p] - minRating)/ (maxRating - minRating);
+  //}
+
+  //sÃ¦t sÃ¸jlehÃ¸jde
+  var maxH = $("#p0 .bg").height()-20; //max hÃ¸jde af sÃ¸jler
   for (var p = 0; p < pinfo.length; p++)
   {
-    $("#p"+p+" .reverseChart").height(pct[p]);
+    $("#p"+p+" .reverseChart").height(maxH*pct[p]/100);
     $("#p"+p).prop("title",100-Math.round(pct[p] * 100)/100 + " % enig"); //beregn en form for enighedsgrad
     $("#p"+p+" .pcttal").html("<nobr>" + Math.round(100 - pct[p]) + " %</nobr>"); //beregn en form for enighedsgrad
 
   }
 
   if (res.length == pinfo.length)
-    resout = "Dine holdninger afslører ingen politiske præferencer";
+    resout = "Dine holdninger afslÃ¸rer ingen politiske prÃ¦ferencer";
   else if (res.length > 1)
   {
     for (var i =0; i < res.length; i++)
@@ -243,15 +252,15 @@ $(function() {
 
 <!--
     <center><h1>Test dig selv - hvem er du mest enig med?</h1>
-      <div style="width:85%;text-align:left;"><h2>Angiv din holdning til 17 politiske udsagn som har været sendt til afstemning blandt folketingets partier og find dit politiske
-        ståsted. God fornøjelse.</h2> </div>
+      <div style="width:85%;text-align:left;"><h2>Angiv din holdning til 17 politiske udsagn som har vÃ¦ret sendt til afstemning blandt folketingets partier og find dit politiske
+        stÃ¥sted. God fornÃ¸jelse.</h2> </div>
     </center>
 -->
 <div id=qs></div>
   <div class="qabox" id=q0box>
     <div class="qbox">
-Personer, der kommer ind i kontanthjælpssystemet, skal ikke begynde
-    på en nedsat ydelse som den såkaldte starthjælp.
+Personer, der kommer ind i kontanthjÃ¦lpssystemet, skal ikke begynde
+    pÃ¥ en nedsat ydelse som den sÃ¥kaldte starthjÃ¦lp.
     </div>
     <div style="clear:both;"></div>
     <div class="slideContainer">
@@ -283,7 +292,7 @@ Danmarks udledning af drivhusgasser skal i 2020 reduceres med 40 procent i forho
 
 <div class="qabox" id=q2box>
 <div class="qbox">
-Den kriminelle lavalder skal være 15, ikke 14 år.
+Den kriminelle lavalder skal vÃ¦re 15, ikke 14 Ã¥r.
  </div>
  <div class="slideContainer">
    <div class="markL">Uenig</div>
@@ -314,7 +323,7 @@ Indsatsen mod brugen af skattely skal styrkes.
 
 <div class="qabox" id=q4box>
 <div class="qbox">
-Asylansøgere skal have lov at bo og arbejde uden for asylcentrene, mens de venter på afgørelse i deres sag.
+AsylansÃ¸gere skal have lov at bo og arbejde uden for asylcentrene, mens de venter pÃ¥ afgÃ¸relse i deres sag.
  </div>
  <div class="slideContainer">
    <div class="markL">Uenig</div>
@@ -329,7 +338,7 @@ Asylansøgere skal have lov at bo og arbejde uden for asylcentrene, mens de vente
 
 <div class="qabox" id=q5box>
 <div class="qbox">
-Grimhøjmoskeen i Aarhus skal forbydes, fordi den radikaliserer unge.
+GrimhÃ¸jmoskeen i Aarhus skal forbydes, fordi den radikaliserer unge.
  </div>
  <div class="slideContainer">
    <div class="markL">Uenig</div>
@@ -344,7 +353,7 @@ Grimhøjmoskeen i Aarhus skal forbydes, fordi den radikaliserer unge.
 
 <div class="qabox" id=q6box>
 <div class="qbox">
-Samfundstjeneste skal i højere grad bruges over for dømte kriminelle som alternativ til fængsel.
+Samfundstjeneste skal i hÃ¸jere grad bruges over for dÃ¸mte kriminelle som alternativ til fÃ¦ngsel.
  </div>
  <div class="slideContainer">
    <div class="markL">Uenig</div>
@@ -359,7 +368,7 @@ Samfundstjeneste skal i højere grad bruges over for dømte kriminelle som alterna
 
   <div class="qabox" id=q7box>
     <div class="qbox">
-Personer af samme køn skal have mulighed for at indgå ægteskab ved en kirkelig handling.
+Personer af samme kÃ¸n skal have mulighed for at indgÃ¥ Ã¦gteskab ved en kirkelig handling.
     </div>
     <div class="slideContainer">
       <div class="markL">Uenig</div>
@@ -375,7 +384,7 @@ Personer af samme køn skal have mulighed for at indgå ægteskab ved en kirkelig h
   <div class="qabox" id=q8box>
     <div class="qbox">
 Journalister og andre borgere skal ikke have ret til aktindsigt i
-    dokumenter, der er indgået i betjeningen af en minister
+    dokumenter, der er indgÃ¥et i betjeningen af en minister
     </div>
     <div class="slideContainer">
       <div class="markL">Uenig</div>
@@ -390,7 +399,7 @@ Journalister og andre borgere skal ikke have ret til aktindsigt i
 
   <div class="qabox" id=q9box>
     <div class="qbox">
-Hvis DONG har brug for en kapitaltilførsel, skal staten træde til med pengene i stedet for at sælge til private investorer.
+Hvis DONG har brug for en kapitaltilfÃ¸rsel, skal staten trÃ¦de til med pengene i stedet for at sÃ¦lge til private investorer.
     </div>
     <div class="slideContainer">
       <div class="markL">Uenig</div>
@@ -405,7 +414,7 @@ Hvis DONG har brug for en kapitaltilførsel, skal staten træde til med pengene i 
 
   <div class="qabox" id=q10box>
     <div class="qbox">
-Dagpengeperioden i Danmark bør være to år i stedet for fire år.
+Dagpengeperioden i Danmark bÃ¸r vÃ¦re to Ã¥r i stedet for fire Ã¥r.
     </div>
     <div class="slideContainer">
       <div class="markL">Uenig</div>
@@ -435,7 +444,7 @@ Staten skal fremme det frie sygehusvalg mellem private og offentlige sygehuse.
   <div class="qabox" id=q12box>
     <div class="qbox">
 Danmark skal have et nationalt testcenter for vindindustrien, hvor
-    der kan afprøves prototyper af meget store vindmøller.
+    der kan afprÃ¸ves prototyper af meget store vindmÃ¸ller.
     </div>
     <div class="slideContainer">
       <div class="markL">Uenig</div>
@@ -450,7 +459,7 @@ Danmark skal have et nationalt testcenter for vindindustrien, hvor
 
   <div class="qabox" id=q13box>
     <div class="qbox">
-Multimedieskatten bør afskaffes, fordi den har en skadelig virkning på udbredelsen af it-teknologier.
+Multimedieskatten bÃ¸r afskaffes, fordi den har en skadelig virkning pÃ¥ udbredelsen af it-teknologier.
     </div>
     <div class="slideContainer">
       <div class="markL">Uenig</div>
@@ -464,7 +473,7 @@ Multimedieskatten bør afskaffes, fordi den har en skadelig virkning på udbredels
   </div>
   <div class="qabox" id=q14box>
     <div class="qbox">
-Folkeskolens elever skal kunne sendes til specialundervisning uden, at der skal foretages en forudgående pædagogisk-psykologisk vurdering
+Folkeskolens elever skal kunne sendes til specialundervisning uden, at der skal foretages en forudgÃ¥ende pÃ¦dagogisk-psykologisk vurdering
     </div>
     <div class="slideContainer">
       <div class="markL">Uenig</div>
@@ -479,7 +488,7 @@ Folkeskolens elever skal kunne sendes til specialundervisning uden, at der skal 
 
   <div class="qabox" id=q15box>
     <div class="qbox">
-For at modgå den tiltagende brug af engelsk på danske universiteter skal det fremgå ved lov, at universiteterne i alle fag har pligt til at bidrage til udviklingen af det danske sprog.
+For at modgÃ¥ den tiltagende brug af engelsk pÃ¥ danske universiteter skal det fremgÃ¥ ved lov, at universiteterne i alle fag har pligt til at bidrage til udviklingen af det danske sprog.
     </div>
     <div class="slideContainer">
       <div class="markL">Uenig</div>
@@ -494,8 +503,8 @@ For at modgå den tiltagende brug af engelsk på danske universiteter skal det fre
 
   <div class="qabox" id=q16box>
     <div class="qbox">
- 64-årige skal have en særlig skatterabat, så de bliver længere
-    på arbejdsmarkedet.
+ 64-Ã¥rige skal have en sÃ¦rlig skatterabat, sÃ¥ de bliver lÃ¦ngere
+    pÃ¥ arbejdsmarkedet.
     </div>
     <div class="slideContainer">
       <div class="markL">Uenig</div>
@@ -509,8 +518,10 @@ For at modgå den tiltagende brug af engelsk på danske universiteter skal det fre
   </div>
 
   <center>
-    <input type=button onclick="rate(1);" value="Test dine holdninger i L¹" data-role="none">
-    <input type=button onclick="rate(2);" value="Test dine holdninger i L²" data-role="none">
+    <input type=button onclick="rate(1);" value="Test dine holdninger i LÂ¹" data-role="none">
+    <input type=button onclick="rate(2);" value="Test dine holdninger i LÂ²" data-role="none">
+    <input type=button onclick="rate(3);" value="Test dine holdninger i L" data-role="none">
+    <input type=button onclick="rate(4);" value="Test dine holdninger i L" data-role="none">
   </center>
 
     <div style="clear:both;height:25px;">&nbsp;</div>
@@ -595,18 +606,20 @@ For at modgå den tiltagende brug af engelsk på danske universiteter skal det fre
     </div>
 
     <div style="clear:both;margin:5px;">&nbsp;</div>
-    <input type=button onclick='$("#result").hide();$("#content").show();' value="Ændr svar" data-role="none">
-    <input type=button onclick='rate(1);' value="Prøv med L¹" data-role="none">
-    <input type=button onclick='rate(2);' value="Prøv med L²" data-role="none">
+    <input type=button onclick='$("#result").hide();$("#content").show();' value="Ã†ndr svar" data-role="none">
+    <input type=button onclick='rate(1);' value="PrÃ¸v med LÂ¹" data-role="none">
+    <input type=button onclick='rate(2);' value="PrÃ¸v med LÂ²" data-role="none">
+    <input type=button onclick='rate(3);' value="PrÃ¸v med LÂ³" data-role="none">
+    <input type=button onclick='rate(4);' value="PrÃ¸v med Lâ´" data-role="none">
 
 
     <div style="clear:both;margin-top:30px;font-size:11px;text-align:left;">
 <div style="float:left;width:30px;">
       <a href="http://dk.okfn.org" target="_top"><img src="http://www.opennordics.org/wp-content/uploads/2015/02/Open-Knowledge-Denmark-Logo-300x300.jpeg" style="float:left;width:30px;margin-right:10px;border:0px;"></a>
     </div>
-      Testen er udviklet af <a href="http://dk.okfn.org/">Open Knowledge Danmark</a>. Koden er frigivet som open source og kan findes på <a href="https://github.com/ok-dk">Github</a>. Dine valg registreres ikke og bliver dermed heller ikke anvendt andre sammenhænge. 
-Søjlerne er skaleret med henblik på at vise forskellene mellem graden af enighed og er ikke indekseret til at starte i nul.
-To søjler med samme procenttal kan have forskellig højde pga afrunding.
+      Testen er udviklet af <a href="http://dk.okfn.org/">Open Knowledge Danmark</a>. Koden er frigivet som open source og kan findes pÃ¥ <a href="https://github.com/ok-dk">Github</a>. Dine valg registreres ikke og bliver dermed heller ikke anvendt andre sammenhÃ¦nge. 
+SÃ¸jlerne er skaleret med henblik pÃ¥ at vise forskellene mellem graden af enighed og er ikke indekseret til at starte i nul.
+To sÃ¸jler med samme procenttal kan have forskellig hÃ¸jde pga afrunding.
     </div>
   </div>
 </div>
