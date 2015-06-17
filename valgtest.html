@@ -171,11 +171,14 @@ function rate(n) {
       for (var p =0; p < pinfo.length; p++)
       {
         pct[p] += Math.pow(Math.abs( qweights[q][p] * 50 - qval ),n);
-        rating[p] += -pct[p];
       }
     }
   }
-
+  for (var p =0; p < pinfo.length; p++)
+  {
+    pct[p] = Math.pow(pct[p]/17,1/n);
+    rating[p] = -pct[p];
+  }
   //skaler resultater 0-1 // <- søjlediagrammer skal altså starte i 0
   var maxRating = -999999;
   var minRating = 9999999;
@@ -199,19 +202,11 @@ function rate(n) {
       minRating = rating[p];
   }
 
-  var ratingSkaleret = Array();
-  for (var p =0; p < pinfo.length; p++)
+  for (var p = 0; p < pinfo.length; p++)
   {
-     ratingSkaleret[p] = 100-Math.round(Math.pow(pct[p],1/n)/17 * 100)/100; //(rating[p] - minRating)/ (maxRating - minRating);
-  }
-
-  //sæt søjlehøjde
-  var maxH = $("#p0 .bg").height()-50; //max højde af søjler
-  for (var p =0; p < pinfo.length; p++)
-  {
-    $("#p"+p+" .reverseChart").height(maxH - ratingSkaleret[p]/100 * maxH);
-    $("#p"+p).prop("title",100-Math.round(Math.pow(pct[p],1/n)/17 * 100)/100 + " % enig"); //beregn en form for enighedsgrad
-    $("#p"+p+" .pcttal").html("<nobr>" + Math.round(100 - Math.pow(pct[p],1/n)/17) + " %</nobr>"); //beregn en form for enighedsgrad
+    $("#p"+p+" .reverseChart").height(pct[p]);
+    $("#p"+p).prop("title",100-Math.round(pct[p] * 100)/100 + " % enig"); //beregn en form for enighedsgrad
+    $("#p"+p+" .pcttal").html("<nobr>" + Math.round(100 - pct[p]) + " %</nobr>"); //beregn en form for enighedsgrad
 
   }
 
@@ -228,7 +223,7 @@ function rate(n) {
         resout += " og " +res[i];
   }
   else {
-    resout = "Du er mest enig med "+res[0];
+    resout = "Du er mest enig med "+res[0]+" i L<sup>"+n+"</sup>";
   }
 
   $("#res").html(resout);
@@ -514,7 +509,7 @@ For at modgå den tiltagende brug af engelsk på danske universiteter skal det fre
   </div>
 
   <center>
-    <input type=button onclick="rate(1);" value="Test dine holdninger" data-role="none">
+    <input type=button onclick="rate(1);" value="Test dine holdninger i L¹" data-role="none">
     <input type=button onclick="rate(2);" value="Test dine holdninger i L²" data-role="none">
   </center>
 
